@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>管理後台</title>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          // 為每個 "查看詳情" 按鈕添加點擊事件
+          var detailButtons = document.querySelectorAll('.see_detail_button');
+          detailButtons.forEach(function(button) {
+              button.addEventListener('click', function() {
+                  // var itemId = this.getAttribute('data-id');
+                  window.location.href = "project_detail";
+              });
+          });
+      });
+    </script>
+    
+      
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f7f6;
+            color: #5d5d5d;
+        }
+        .header, .sidebar, .content {
+            padding: 20px;
+        }
+        .header {
+            background: #fff;
+            border-bottom: 1px solid #eeeeee;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .sidebar {
+            flex: 0 0 200px;
+            background: #f9f9f9;
+            border-right: 1px solid #eeeeee;
+            height: calc(100vh - 60px); /* Full height minus header */
+            overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #5d5d5d;
+            display: block;
+            padding: 10px 0;
+            transition: background-color .3s;
+        }
+        .sidebar ul li a:hover {
+            background-color: #e7e7e7;
+        }
+        .content {
+            flex: 1; /* Takes up the remainder of the space */
+            background: #fff;
+            min-height: 100vh;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>管理後台</h1>
+    </div>
+    <div class="container">
+        <div class="sidebar">
+            <ul>
+                <li><a href="#">管理後台</a></li>
+                <li><button><a href="#">新增訓練</a></button></li>
+            </ul>
+        </div>
+        <div class="content">
+            <h2></h2>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>項目</th>
+                        <th>人員</th>
+                        <th>日期</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in table_data %}
+                        <tr>
+                            <td>{{ row['id'] }}</td>
+                            <td>{{ row['name'] }}</td>
+                            <td>{{ row['person'] }}</td>
+                            <td>{{ row['date'] }}</td>
+                            <td>
+                            <button class="see_detail_button" data-id="{{ row['id'] }}">查看詳情</button>
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

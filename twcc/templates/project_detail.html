@@ -1,0 +1,342 @@
+<!-- templates/project_detail.html -->
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <!-- 添加 Bootstrap 的 jQuery 和 JavaScript 文件 -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    
+
+    <meta charset="UTF-8">
+    <title>項目詳情</title>
+        <script>
+            // 獲取模態框元素
+            var modal = document.getElementById("myModal");
+            
+            // 獲取 <span> 元素，它用於關閉模態框
+            var span = document.getElementsByClassName("close")[0];
+            
+            // 當用戶點擊按鈕時打開模態框
+            var btns = document.querySelectorAll('.see_detail_button');
+            btns.forEach(function(btn) {
+                btn.onclick = function() {
+                    modal.style.display = "block";
+                }
+            }); 
+      
+            // 當用戶點擊 <span> (x) 時，關閉模態框
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+            
+            // 當用戶點擊模態框之外的地方時，也應該關閉模態框
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        </script> 
+        <script>
+            // 當文檔加載完成後執行
+            document.addEventListener('DOMContentLoaded', function() {
+                // 獲取所有的查看詳情按鈕
+                var detailButtons = document.querySelectorAll('.see_detail_button');
+                // 為每個按鈕添加點擊事件處理器
+                detailButtons.forEach(function(button) {
+                    button.addEventListener('click', function() {
+                        // 這裡可以通過 AJAX 從服務器獲取詳細信息並顯示在模態框中
+                        var itemId = this.getAttribute('data-id');
+                        // 使用 jQuery 來顯示模態框
+                        $('#detailModal').modal('show');
+                    });
+                });
+            });
+        </script>
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+              // 為"新增實驗" 按鈕添加點擊事件
+              var add_experiment_button = document.querySelectorAll('.add_experiment_button');
+              add_experiment_button.forEach(function(button) {
+                  button.addEventListener('click', function() {
+                      // var itemId = this.getAttribute('data-id');
+                      window.location.href = "add_experiment";
+                  });
+              });
+          });
+        </script>
+
+    <style>
+        /* 模態框的樣式 */
+        .modal {
+            display: none; /* 預設隱藏 */
+            position: fixed; /* 固定定位 */
+            z-index: 1; /* 位於頁面頂層 */
+            left: 0;
+            top: 0;
+            width: 100%; /* 全寬 */
+            height: 100%; /* 全高 */
+            overflow: auto; /* 啟用滾動條 */
+            background-color: rgba(0,0,0,0.4); /* 黑色背景，略帶透明 */
+        }
+  
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% 上下邊距，自動左右邊距 */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* 可以根據需要調整寬度 */
+            width: 50%; /* 或根据需要调整为更合适的宽度 */
+            min-height: 300px; /* 或根据需要调整为更合适的高度 */
+            margin: 5% auto; /* 增加顶部边距，并保持水平居中 */
+        }
+
+        /* 调整模态框内部元素的布局 */
+        .modal-body {
+            position: relative; /* 设置相对定位，用于内部元素绝对定位 */
+            padding: 20px; /* 添加一些内边距 */
+        }
+
+        /* 日期选择下拉菜单的样式 */
+        .custom-select {
+            width: auto; /* 让下拉菜单根据内容自适应宽度 */
+            margin-bottom: 1rem; /* 添加一些底部边距 */
+        }
+
+        /* 图表容器的样式 */
+        .figure-img {
+            width: 100%; /* 图片宽度占满容器 */
+            height: auto; /* 图片高度自适应 */
+        }
+
+        /* 左下方的 MSE 等数据显示 */
+        .modal-footer {
+            position: absolute; /* 绝对定位 */
+            bottom: 20px; /* 离底部的距离 */
+            right: 20px; /* 离右侧的距离 */
+            text-align: right; /* 右对齐文本 */
+        }
+
+        /* 左下方的数据显示 */
+        .modal-body .data-info {
+            position: absolute; /* 绝对定位 */
+            bottom: 20px; /* 离底部的距离 */
+            left: 20px; /* 离左侧的距离 */
+        }
+
+        /* 对于图表的容器，使用 flex 布局 */
+        .data-section {
+            display: flex;
+            justify-content: space-between; /* 使两个图表之间有间隔 */
+            margin-bottom: 20px; /* 与下面的 MSE 数据有一定间隔 */
+        }
+
+        .data-section > div {
+            width: 48%; /* 占容器宽度的一半 */
+            padding: 10px;
+            border: 1px solid #dee2e6; /* 使用 Bootstrap 的边框颜色 */
+            height: 150px; /* 或根据需要调整高度 */
+            overflow: auto; /* 如果内容超出，显示滚动条 */
+        }
+
+
+
+        /* 關閉按鈕的樣式 */
+        .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f7f6;
+            color: #5d5d5d;
+        }
+        .header, .sidebar, .content {
+            padding: 20px;
+        }
+        .header {
+            background: #fff;
+            border-bottom: 1px solid #eeeeee;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .sidebar {
+            flex: 0 0 200px;
+            background: #f9f9f9;
+            border-right: 1px solid #eeeeee;
+            height: calc(100vh - 60px); /* Full height minus header */
+            overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #5d5d5d;
+            display: block;
+            padding: 10px 0;
+            transition: background-color .3s;
+        }
+        .sidebar ul li a:hover {
+            background-color: #e7e7e7;
+        }
+        .content {
+            display: flex;
+            flex-direction: row; /* 水平排列內容 */
+            justify-content: space-between; /* 在子元素之間留出空間 */
+            align-items: start; /* 從頂部對齊 */
+            flex: 1; /* Takes up the remainder of the space */
+            background: #fff;
+            min-height: 100vh;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>項目詳情</h1>
+    </div>
+    <div class="content">
+      <div class="sidebar">
+        <ul>
+            <li><button class="add_experiment_button">新增實驗</button></li>
+        </ul>
+      </div>
+      <div class="content">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>模型</th>
+                    <th>資料集</th>
+                    <th>狀態</th>
+                    <th>時間</th>
+                    <th>MSE</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+              {% for row in table_data %}
+                    <tr>
+                      <td>{{ row['id'] }}</td>
+                      <td>{{ row['model'] }}</td>
+                      <td>{{ row['dataset'] }}</td>
+                      <td>{{ row['status'] }}</td>
+                      <td>{{ row['time'] }}</td>
+                      <td>{{ row['MSE'] }}</td>
+                      <td>
+                        <button class="see_detail_button" data-id="{{ row['id'] }}">查看詳情</button>
+                        <button class="predict_button">進行預測</button> <!--還沒寫完-->
+                      </td>
+                    </tr>
+              {% endfor %}
+            </tbody> 
+        </table>
+      </div>
+    </div>
+    <!-- 模態框（懸浮視窗）的 HTML -->
+
+   <!-- 模態框 -->
+  <div class="modal" tabindex="-1" role="dialog" id="detailModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">項目詳情</h5>
+          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" data-dismiss="modal">&times;</span>
+          </button> -->
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <select class="custom-select" id="dataSelect">
+              <option selected>選擇實驗...</option>
+              {% for file in loss_acc_files %}
+              <option value="{{ file }}">{{ file }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          
+
+          <div class="d-flex justify-content-end mb-3">
+            <div class="p-2 bg-light" style="width: 48%;">
+              <img id="trainLossChart" src="" class="img-thumbnail" alt="Train Loss Chart">
+            </div>
+            <div class="p-2 bg-light" style="width: 48%;">
+              <img id="trainAccChart" src="" class="img-thumbnail" alt="Train Accuracy Chart">
+            </div>
+            <div class="p-2 bg-light" style="width: 48%;">
+              <img id="valLossChart" src="" class="img-thumbnail" alt="Val Loss Chart">
+            </div>
+            <div class="p-2 bg-light" style="width: 48%;">
+              <img id="valAccChart" src="" class="img-thumbnail" alt="Val Accuracy Chart">
+            </div>
+          </div>
+
+          <script>
+            document.getElementById('dataSelect').addEventListener('change', function() {
+              var selectedFile = this.value;
+              // 添加一個時間戳查詢參數以避免瀏覽器快取
+              var timestamp = new Date().getTime();
+              var trainLossChartSrc = `/diagrams/${selectedFile}_train_loss.png?${timestamp}`;
+              var trainAccChartSrc = `/diagrams/${selectedFile}_train_acc.png?${timestamp}`;
+              var valLossChartSrc = `/diagrams/${selectedFile}_val_loss.png?${timestamp}`;
+              var valAccChartSrc = `/diagrams/${selectedFile}_val_acc.png?${timestamp}`;
+            
+              document.getElementById('trainLossChart').src = trainLossChartSrc;
+              document.getElementById('trainAccChart').src = trainAccChartSrc;
+              document.getElementById('valLossChart').src = valLossChartSrc;
+              document.getElementById('valAccChart').src = valAccChartSrc;
+            
+            });
+          </script>
+            
+  
+          <!-- 左下方的 MSE 等數據顯示 -->
+          <div class="d-flex justify-content-between">
+            <div>
+              <p>MSE: </p>
+              <!-- 更多數據 -->
+            </div>
+            <!-- 右下方的按鈕 -->
+            <div>
+              <button type="button" class="btn btn-primary predict_button">進行預測</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+   
+</body>
+</html>

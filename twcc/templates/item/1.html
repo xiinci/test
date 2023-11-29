@@ -1,0 +1,34 @@
+<!-- templates/project_detail.html -->
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>項目詳情</title>
+</head>
+<body>
+    <h1>項目詳情</h1>
+    <table>
+        <tr>
+            <th>模型名稱</th>
+            <td>{{ details.model_name }}</td>
+        </tr>
+        <tr>
+            <th>資料集</th>
+            <td>{{ details.dataset }}</td>
+        </tr>
+        <tr>
+            <th>狀態</th>
+            <td>{{ details.status }}</td>
+        </tr>
+        <tr>
+            <th>時間</th>
+            <td>{{ details.time }}</td>
+        </tr>
+        <tr>
+            <th>分數</th>
+            <td>{{ details.score }}</td>
+        </tr>
+        <!-- 其他信息 -->
+    </table>
+</body>
+</html>

@@ -1,0 +1,11 @@
+﻿id,model,dataset,status,time,MSE
+1,Model B,Dataset 3,執行中,3小時,99
+2,Model D,Dataset 3,執行中,1小時,82
+3,Model E,Dataset 2,完成,2小時,98
+4,Model B,Dataset 5,執行中,1小時,83
+5,Model E,Dataset 3,失敗,2小時,99
+6,Model A,Dataset 2,完成,2小時,88
+7,Model A,Dataset 4,失敗,3小時,100
+8,Model E,Dataset 4,失敗,1小時,93
+9,Model C,Dataset 2,執行中,1小時,80
+10,Model D,Dataset 2,執行中,1小時,90

@@ -1,0 +1,34 @@
+#新增實驗、上傳pt zip檔####################################
+# @app.route('/add_experiment', methods=['POST'])
+# def add_experiment():
+#     # 确认是否收到文件
+#     if 'modelFile' not in request.files or 'datasetFile' not in request.files:
+#         return jsonify({'success': False, 'message': 'No file part'})
+
+#     model_file = request.files['modelFile']
+#     dataset_file = request.files['datasetFile']
+
+#     # 确认文件是否有名字（即用户有没有选择文件）
+#     if model_file.filename == '' or dataset_file.filename == '':
+#         return jsonify({'success': False, 'message': 'No selected file'})
+
+#     # 保存文件
+#     model_path = os.path.join('uploads', model_file.filename)
+#     dataset_path = os.path.join('uploads', dataset_file.filename)
+#     model_file.save(model_path)
+#     dataset_file.save(dataset_path)
+
+#     # 加载模型
+#     model = torch.jit.load(model_path)
+
+#     # 解压数据集
+#     with zipfile.ZipFile(dataset_path, 'r') as zip_ref:
+#         zip_ref.extractall('datasets')
+
+#     # 假设数据集解压到了 datasets 文件夹
+#     # 以下是假设的训练过程
+#     # train_model(model, 'datasets/...') # 你需要实现 train_model 函数
+
+#     # 假设 train_model 函数已经保存了一个 CSV 文件
+#     # 返回成功消息和 CSV 文件的路径
+#     return jsonify({'success': True, 'message': 'Experiment added successfully', 'data_path': 'path_to_csv'})
